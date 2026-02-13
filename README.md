@@ -1,7 +1,7 @@
 # Why?
 
 On emscripten-forg 4x, we see issues in the ci when testing certain packages.
-In particular: 
+In particular
   - scipy
   - pydantic-core
 
