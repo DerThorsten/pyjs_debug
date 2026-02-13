@@ -1,0 +1,9 @@
+name: debug_preloading
+channels:
+  - conda-forge
+
+dependencies:
+  - cmake
+  - python
+  - empack
+  - pyjs_code_runner

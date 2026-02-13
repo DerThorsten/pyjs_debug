@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>please check the browser console</title>
+    <script src="pyjs_runtime_browser.js"></script> 
+    <script>
+      async function runPyjs() {
+
+        let locateFile = function(filename){
+            if(filename.endsWith('pyjs_runtime_browser.wasm')){
+                return `./pyjs_runtime_browser.wasm`; // location of the wasm 
+                                                    // file on the server relative 
+                                                    // to the pyjs_runtime_browser.js file
+            }
+        };
+        let pyjs = await createModule({locateFile});
+        await pyjs.bootstrap_from_empack_packed_environment(
+            "./empack_env_meta.json", // location of the environment 
+                                      // meta file on the server
+            ".",                       // location of the packed 
+                                      // environment on the server
+            true,
+            false // skip preloading of shared libs
+        );
+
+        console.log("liftoff!");
+
+        // now we can use pyjs
+        pyjs.exec(`
+print("welcome to the main.py file")
+
+print("import numpy")
+import numpy
+print("numpy imported successfully")
+
+
+print("import scipy")
+import scipy
+print("scipy imported successfully")
+
+print("import pydantic-core")
+import pydantic_core
+print("pydantic-core imported successfully") 
+`);
+
+        
+      }
+      runPyjs();
+
+    </script>
+  </head>
+  <body>
+    <h1>Please check your browser console</h1>
+  </body>
