@@ -6,7 +6,7 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MM=$MAMBA_EXE
 WASM_PREFIX_DIR=$THIS_DIR/debug_prefix
 EMSCRIPTEN_VERSION_CONSTRAINT="==4.0.9"
-HOST_WORK_DIR=$THIS_DIR/host_work_dir
+HOST_WORK_DIR=$THIS_DIR/host_work_dir_py
 HOST_MOUNT_DIR=$THIS_DIR/mount_dir
 
 
@@ -23,24 +23,11 @@ else
         -c https://repo.prefix.dev/conda-forge \
         --yes \
         python "emscripten-abi$EMSCRIPTEN_VERSION_CONSTRAINT"\
-        numpy scipy pydantic-core pyjs ytes
+        numpy scipy pydantic-core pyjs pytest
 fi
 
 
-
-
-
-# run in env with does not contain numpy
 mkdir -p $HOST_WORK_DIR
-
-pyjs_code_runner run script \
-        browser-main \
-        --conda-env         $WASM_PREFIX_DIR  \
-        --mount             $HOST_MOUNT_DIR:/mount_dir \
-        --script            main.py \
-        --work-dir          /mount_dir \
-        --host-work-dir     $HOST_WORK_DIR \
-        --headless \
-        --no-cache \
-        --slow-mo 0 \
-        --no-async-main \
+cd $HOST_WORK_DIR
+export WASM_PREFIX=$WASM_PREFIX_DIR
+python $THIS_DIR/pytester_alike.py

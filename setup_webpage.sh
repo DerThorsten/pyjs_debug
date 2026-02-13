@@ -22,7 +22,7 @@ else
         -c https://repo.prefix.dev/conda-forge \
         --yes \
         python "emscripten-abi$EMSCRIPTEN_VERSION_CONSTRAINT"\
-        numpy scipy pydantic-core pyjs
+        numpy scipy pydantic-core pyjs pytest
 fi
 
 
